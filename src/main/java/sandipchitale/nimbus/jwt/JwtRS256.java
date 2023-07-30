@@ -36,6 +36,7 @@ public class JwtRS256 implements CommandLineRunner {
         System.out.println("-------------------------------------------");
         System.out.println("Jwt with RS256 Private Key (signer) / Public Key (verifier)");
         System.out.println("-------------------------------------------");
+
         PemWriter pemWriter = new PemWriter(new OutputStreamWriter(System.out));
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
@@ -67,17 +68,19 @@ public class JwtRS256 implements CommandLineRunner {
 
         SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.RS256), claimsSet);
 
-        // Apply the HMAC protection
+        // Apply the RSA protection
         signedJWT.sign(signer);
 
-        // Serialize to compact form, produces something like
-        //
         String jwt = signedJWT.serialize();
 
         System.out.println();
         System.out.println("-------------------------------------------");
         System.out.println("JWT: "+ jwt);
         System.out.println("-------------------------------------------");
+
+        System.out.println();
+        System.out.println("Launching the browser with: https://jwt.io?access_token=" + jwt);
+        System.out.println("Use the Public and Private keys above to verify the JWT signature.");
 
         SwingUtilities.invokeLater(() -> {
             try {
@@ -86,11 +89,7 @@ public class JwtRS256 implements CommandLineRunner {
             }
         });
 
-        System.out.println();
-        System.out.println("Launched browser with: https://jwt.io?access_token=" + jwt);
-        System.out.println("Use the Public and Private keys above to verify the JWT signature.");
-
-        // On the consumer side, parse the JWS and verify its HMAC
+        // On the consumer side, parse the JWS and verify its RSA
         signedJWT = SignedJWT.parse(jwt);
 
         JWSVerifier verifier = new RSASSAVerifier(publicKey);

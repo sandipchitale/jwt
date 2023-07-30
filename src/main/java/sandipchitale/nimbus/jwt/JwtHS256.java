@@ -24,9 +24,6 @@ import java.util.Date;
 @Component
 public class JwtHS256 implements CommandLineRunner {
 
-    public JwtHS256() {
-    }
-
     @Override
     public void run(String... args) throws Exception {
         System.out.println();
@@ -34,6 +31,7 @@ public class JwtHS256 implements CommandLineRunner {
         System.out.println("-------------------------------------------");
         System.out.println("Jwt signed and verifies with HS256 (Shared Secret)");
         System.out.println("-------------------------------------------");
+
         // Generate random 256-bit (32-byte) shared secret
         SecureRandom random = new SecureRandom();
         byte[] sharedSecret = new byte[32];
@@ -60,8 +58,6 @@ public class JwtHS256 implements CommandLineRunner {
         // Apply the HMAC protection
         signedJWT.sign(signer);
 
-        // Serialize to compact form, produces something like
-        //
         String jwt = signedJWT.serialize();
 
         System.out.println();
@@ -69,16 +65,16 @@ public class JwtHS256 implements CommandLineRunner {
         System.out.println("JWT: "+ jwt);
         System.out.println("-------------------------------------------");
 
+        System.out.println();
+        System.out.println("Launching the browser with: https://jwt.io?access_token=" + jwt);
+        System.out.println("Make sure to select '[ ] secret base64 encoded' to verify the JWT signature.");
+
         SwingUtilities.invokeLater(() -> {
             try {
                 Desktop.getDesktop().browse(URI.create("https://jwt.io?access_token=" + jwt));
             } catch (IOException ignore) {
             }
         });
-
-        System.out.println();
-        System.out.println("Launched browser with: https://jwt.io?access_token=" + jwt);
-        System.out.println("Make sure to select '[ ] secret base64 encoded' to verify the JWT signature.");
 
         // On the consumer side, parse the JWS and verify its HMAC
         signedJWT = SignedJWT.parse(jwt);

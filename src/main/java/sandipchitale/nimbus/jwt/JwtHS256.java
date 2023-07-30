@@ -12,13 +12,15 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
+import static java.lang.System.out;
+
 @Profile("HS256")
 @Component
 public class JwtHS256 extends JwtAbstract implements CommandLineRunner {
     private byte[] sharedSecret;
 
     protected void printHeader() {
-        System.out.println("Jwt signed and verifies with HS256 (Shared Secret)");
+        out.println("Jwt signed and verifies with HS256 (Shared Secret)");
     }
 
     protected void initTrustMaterial() throws IOException, NoSuchAlgorithmException {
@@ -29,9 +31,9 @@ public class JwtHS256 extends JwtAbstract implements CommandLineRunner {
 
         String base64SharedSecret = Base64.getEncoder().encodeToString(sharedSecret);
 
-        System.out.println(SEPARATOR);
-        System.out.println("Base64 encoded shared secret = " + base64SharedSecret);
-        System.out.println(SEPARATOR);
+        out.println(SEPARATOR);
+        out.println("Base64 encoded shared secret = " + base64SharedSecret);
+        out.println(SEPARATOR);
     }
 
     protected JWSAlgorithm getJWSAlgorithm() {
@@ -47,7 +49,7 @@ public class JwtHS256 extends JwtAbstract implements CommandLineRunner {
     }
 
     protected void printHint() {
-        System.out.println("Hint: Make sure to select '[ ] secret base64 encoded' to verify the JWT signature.");
+        out.println("Hint: Make sure to select '[ ] secret base64 encoded' to verify the JWT signature.");
     }
 
     protected JWSVerifier getVerifier() throws JOSEException {

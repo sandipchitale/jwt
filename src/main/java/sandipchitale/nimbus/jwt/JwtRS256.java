@@ -20,6 +20,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
+import static java.lang.System.out;
+
 @Profile("RS256")
 @Component
 public class JwtRS256 extends JwtAbstract implements CommandLineRunner {
@@ -29,27 +31,27 @@ public class JwtRS256 extends JwtAbstract implements CommandLineRunner {
     private RSAPublicKey publicKey;
 
     protected void printHeader() {
-        System.out.println("Jwt with RS256 Private Key (signer) / Public Key (verifier)");
+        out.println("Jwt with RS256 Private Key (signer) / Public Key (verifier)");
     }
 
     protected void initTrustMaterial() throws IOException, NoSuchAlgorithmException {
-        PemWriter pemWriter = new PemWriter(new OutputStreamWriter(System.out));
+        PemWriter pemWriter = new PemWriter(new OutputStreamWriter(out));
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         privateKey = (RSAPrivateKey) keyPair.getPrivate();
         publicKey = (RSAPublicKey) keyPair.getPublic();
 
-        System.out.println(SEPARATOR);
+        out.println(SEPARATOR);
         PemObject pemObject;
         pemObject = new PemObject("RSA PUBLIC KEY", publicKey.getEncoded());
-        pemWriter = new PemWriter(new OutputStreamWriter(System.out));
+        pemWriter = new PemWriter(new OutputStreamWriter(out));
         pemWriter.writeObject(pemObject);
         pemWriter.flush();
         pemObject = new PemObject("RSA PRIVATE KEY", privateKey.getEncoded());
         pemWriter.writeObject(pemObject);
         pemWriter.flush();
-        System.out.println(SEPARATOR);
+        out.println(SEPARATOR);
     }
 
     protected JWSAlgorithm getJWSAlgorithm() {
@@ -62,7 +64,7 @@ public class JwtRS256 extends JwtAbstract implements CommandLineRunner {
     }
 
     protected void printHint() {
-        System.out.println("Use the Public and Private keys above to verify the JWT signature.");
+        out.println("Use the Public and Private keys above to verify the JWT signature.");
     }
 
 

@@ -13,6 +13,8 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Date;
 
+import static java.lang.System.out;
+
 public abstract class JwtAbstract implements CommandLineRunner {
     protected static final String SEPARATOR = "-".repeat(160);
     private final int expirySeconds = 5;
@@ -48,38 +50,38 @@ public abstract class JwtAbstract implements CommandLineRunner {
 
         // Verify the JWT
         boolean verified = signedJWT.verify(getVerifier());
-        System.out.println();
-        System.out.println(SEPARATOR);
-        System.out.println("Verified? " + verified);
+        out.println();
+        out.println(SEPARATOR);
+        out.println("Verified? " + verified);
 
         // Verify claims according to the app requirements
         JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
         String subject = jwtClaimsSet.getSubject();
         String issuer = jwtClaimsSet.getIssuer();
         Date expirationTime = jwtClaimsSet.getExpirationTime();
-        System.out.println("Subject = " + subject);
-        System.out.println("Issuer = " + issuer);
-        System.out.println("Expiration Time = " + expirationTime);
-        System.out.println(SEPARATOR);
-        System.out.println();
-        System.out.println("Expired (Expect No)? " + (new Date().after(expirationTime)? "Yes" : "No"));
-        System.out.println();
-        System.out.println(SEPARATOR);
-        System.out.print("Waiting for " + (2 * expirySeconds) + " seconds before checking expiry...");
+        out.println("Subject = " + subject);
+        out.println("Issuer = " + issuer);
+        out.println("Expiration Time = " + expirationTime);
+        out.println(SEPARATOR);
+        out.println();
+        out.println("Expired (Expect No)? " + (new Date().after(expirationTime)? "Yes" : "No"));
+        out.println();
+        out.println(SEPARATOR);
+        out.print("Waiting for " + (2 * expirySeconds) + " seconds before checking expiry...");
         Thread.sleep(2 * expirySeconds * 1000);
-        System.out.println("Done.");
-        System.out.println(SEPARATOR);
-        System.out.println();
-        System.out.println("Expired (Expect Yes)? " + (new Date().after(expirationTime) ? "Yes" : "No"));
+        out.println("Done.");
+        out.println(SEPARATOR);
+        out.println();
+        out.println("Expired (Expect Yes)? " + (new Date().after(expirationTime) ? "Yes" : "No"));
     }
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println();
-        System.out.println();
-        System.out.println(SEPARATOR);
+        out.println();
+        out.println();
+        out.println(SEPARATOR);
         printHeader();
-        System.out.println(SEPARATOR);
+        out.println(SEPARATOR);
 
         initTrustMaterial();
 
@@ -90,14 +92,14 @@ public abstract class JwtAbstract implements CommandLineRunner {
 
         String jwt = signedJWT.serialize();
 
-        System.out.println();
-        System.out.println(SEPARATOR);
-        System.out.println("JWT: "+ jwt);
-        System.out.println("Expiring in " + expirySeconds + " seconds.");
-        System.out.println(SEPARATOR);
+        out.println();
+        out.println(SEPARATOR);
+        out.println("JWT: "+ jwt);
+        out.println("Expiring in " + expirySeconds + " seconds.");
+        out.println(SEPARATOR);
 
-        System.out.println();
-        System.out.println("Launching the browser with: https://jwt.io?access_token=" + jwt);
+        out.println();
+        out.println("Launching the browser with: https://jwt.io?access_token=" + jwt);
         printHint();
 
         SwingUtilities.invokeLater(() -> {

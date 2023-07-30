@@ -4,8 +4,6 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +13,9 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Date;
 
-@Profile("HS256")
-@Component
 public abstract class JwtAbstract implements CommandLineRunner {
+    private final int expirySeconds = 5;
+
     protected abstract void printHeader();
 
     protected abstract void initTrustMaterial() throws IOException, NoSuchAlgorithmException;
@@ -30,7 +28,7 @@ public abstract class JwtAbstract implements CommandLineRunner {
         return new JWTClaimsSet.Builder()
                 .subject(getJWSAlgorithm().getName() + " JWT")
                 .issuer("http://localhost:8080")
-                .expirationTime(new Date(new Date().getTime() + 5 * 1000))
+                .expirationTime(new Date(new Date().getTime() + expirySeconds * 1000))
                 .build();
     }
 
@@ -64,8 +62,8 @@ public abstract class JwtAbstract implements CommandLineRunner {
         System.out.println("Expired? " + (new Date().after(expirationTime)? "Yes" : "No"));
         System.out.println();
         System.out.println("-------------------------------------------");
-        System.out.print("Waiting for 10 seconds before checking expiry...");
-        Thread.sleep(10*1000);
+        System.out.print("Waiting for " + (2 * expirySeconds) + " seconds before checking expiry...");
+        Thread.sleep(2 * expirySeconds * 1000);
         System.out.println("Done.");
         System.out.println("-------------------------------------------");
         System.out.println();
@@ -92,7 +90,7 @@ public abstract class JwtAbstract implements CommandLineRunner {
         System.out.println();
         System.out.println("-------------------------------------------");
         System.out.println("JWT: "+ jwt);
-        System.out.println("Expiring in 5 seconds.");
+        System.out.println("Expiring in " + expirySeconds + " seconds.");
         System.out.println("-------------------------------------------");
 
         System.out.println();

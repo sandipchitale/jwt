@@ -25,8 +25,6 @@ import static java.lang.System.out;
 @Profile("RS256")
 @Component
 public class JwtRS256 extends JwtAbstract implements CommandLineRunner {
-
-
     private RSAPrivateKey privateKey;
     private RSAPublicKey publicKey;
 

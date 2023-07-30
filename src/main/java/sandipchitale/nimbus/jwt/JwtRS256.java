@@ -40,7 +40,7 @@ public class JwtRS256 extends JwtAbstract implements CommandLineRunner {
         privateKey = (RSAPrivateKey) keyPair.getPrivate();
         publicKey = (RSAPublicKey) keyPair.getPublic();
 
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
         PemObject pemObject;
         pemObject = new PemObject("RSA PUBLIC KEY", publicKey.getEncoded());
         pemWriter = new PemWriter(new OutputStreamWriter(System.out));
@@ -49,7 +49,7 @@ public class JwtRS256 extends JwtAbstract implements CommandLineRunner {
         pemObject = new PemObject("RSA PRIVATE KEY", privateKey.getEncoded());
         pemWriter.writeObject(pemObject);
         pemWriter.flush();
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
     }
 
     protected JWSAlgorithm getJWSAlgorithm() {

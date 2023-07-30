@@ -29,9 +29,9 @@ public class JwtHS256 extends JwtAbstract implements CommandLineRunner {
 
         String base64SharedSecret = Base64.getEncoder().encodeToString(sharedSecret);
 
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
         System.out.println("Base64 encoded shared secret = " + base64SharedSecret);
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
     }
 
     protected JWSAlgorithm getJWSAlgorithm() {

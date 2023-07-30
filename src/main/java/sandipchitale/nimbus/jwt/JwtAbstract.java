@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 public abstract class JwtAbstract implements CommandLineRunner {
+    protected static final String SEPARATOR = "-".repeat(160);
     private final int expirySeconds = 5;
 
     protected abstract void printHeader();
@@ -48,7 +49,7 @@ public abstract class JwtAbstract implements CommandLineRunner {
         // Verify the JWT
         boolean verified = signedJWT.verify(getVerifier());
         System.out.println();
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
         System.out.println("Verified? " + verified);
 
         // Verify claims according to the app requirements
@@ -59,15 +60,15 @@ public abstract class JwtAbstract implements CommandLineRunner {
         System.out.println("Subject = " + subject);
         System.out.println("Issuer = " + issuer);
         System.out.println("Expiration Time = " + expirationTime);
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
         System.out.println();
         System.out.println("Expired (Expect No)? " + (new Date().after(expirationTime)? "Yes" : "No"));
         System.out.println();
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
         System.out.print("Waiting for " + (2 * expirySeconds) + " seconds before checking expiry...");
         Thread.sleep(2 * expirySeconds * 1000);
         System.out.println("Done.");
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
         System.out.println();
         System.out.println("Expired (Expect Yes)? " + (new Date().after(expirationTime) ? "Yes" : "No"));
     }
@@ -76,9 +77,9 @@ public abstract class JwtAbstract implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println();
         System.out.println();
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
         printHeader();
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
 
         initTrustMaterial();
 
@@ -90,10 +91,10 @@ public abstract class JwtAbstract implements CommandLineRunner {
         String jwt = signedJWT.serialize();
 
         System.out.println();
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
         System.out.println("JWT: "+ jwt);
         System.out.println("Expiring in " + expirySeconds + " seconds.");
-        System.out.println("-------------------------------------------");
+        System.out.println(SEPARATOR);
 
         System.out.println();
         System.out.println("Launching the browser with: https://jwt.io?access_token=" + jwt);

@@ -63,6 +63,7 @@ public class JwtHS256 implements CommandLineRunner {
         System.out.println();
         System.out.println("-------------------------------------------");
         System.out.println("JWT: "+ jwt);
+        System.out.println("Expiring in 5 seconds.");
         System.out.println("-------------------------------------------");
 
         System.out.println();

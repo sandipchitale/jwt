@@ -18,8 +18,6 @@ import java.util.Date;
 @Profile("HS256")
 @Component
 public abstract class JwtAbstract implements CommandLineRunner {
-    private byte[] sharedSecret;
-
     protected abstract void printHeader();
 
     protected abstract void initTrustMaterial() throws IOException, NoSuchAlgorithmException;
@@ -63,7 +61,7 @@ public abstract class JwtAbstract implements CommandLineRunner {
         System.out.println("Expiration Time = " + expirationTime);
         System.out.println("-------------------------------------------");
         System.out.println();
-        System.out.println("Exipred? " + (new Date().after(expirationTime)? "Yes" : "No"));
+        System.out.println("Expired? " + (new Date().after(expirationTime)? "Yes" : "No"));
         System.out.println();
         System.out.println("-------------------------------------------");
         System.out.print("Waiting for 10 seconds before checking expiry...");
@@ -71,7 +69,7 @@ public abstract class JwtAbstract implements CommandLineRunner {
         System.out.println("Done.");
         System.out.println("-------------------------------------------");
         System.out.println();
-        System.out.println("Exipred? " + (new Date().after(expirationTime) ? "Yes" : "No"));
+        System.out.println("Expired? " + (new Date().after(expirationTime) ? "Yes" : "No"));
     }
 
     @Override

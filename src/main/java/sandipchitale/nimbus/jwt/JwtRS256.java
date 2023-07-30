@@ -31,6 +31,11 @@ public class JwtRS256 implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println();
+        System.out.println();
+        System.out.println("-------------------------------------------");
+        System.out.println("Jwt with RS256 Private Key (signer) / Public Key (verifier)");
+        System.out.println("-------------------------------------------");
         PemWriter pemWriter = new PemWriter(new OutputStreamWriter(System.out));
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);

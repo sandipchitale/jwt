@@ -29,6 +29,11 @@ public class JwtHS256 implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println();
+        System.out.println();
+        System.out.println("-------------------------------------------");
+        System.out.println("Jwt signed and verifies with HS256 (Shared Secret)");
+        System.out.println("-------------------------------------------");
         // Generate random 256-bit (32-byte) shared secret
         SecureRandom random = new SecureRandom();
         byte[] sharedSecret = new byte[32];

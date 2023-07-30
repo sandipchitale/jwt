@@ -41,25 +41,27 @@ public abstract class JwtAbstract implements CommandLineRunner {
     protected abstract JWSVerifier getVerifier() throws JOSEException;
 
     private void printReport(String jwt) throws ParseException, JOSEException, InterruptedException {
-        // On the consumer side, parse the JWS and verify its HMAC
+        // On the consumer side, parse the JWS and verify its signature
+        // Retrieve
         SignedJWT signedJWT = SignedJWT.parse(jwt);
 
+        // Verify the JWT
         boolean verified = signedJWT.verify(getVerifier());
-
-        // Retrieve / verify the JWT claims according to the app requirements
-        String subject = signedJWT.getJWTClaimsSet().getSubject();
-        String issuer = signedJWT.getJWTClaimsSet().getIssuer();
-        Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-
         System.out.println();
         System.out.println("-------------------------------------------");
         System.out.println("Verified? " + verified);
+
+        // Verify claims according to the app requirements
+        JWTClaimsSet jwtClaimsSet = signedJWT.getJWTClaimsSet();
+        String subject = jwtClaimsSet.getSubject();
+        String issuer = jwtClaimsSet.getIssuer();
+        Date expirationTime = jwtClaimsSet.getExpirationTime();
         System.out.println("Subject = " + subject);
         System.out.println("Issuer = " + issuer);
         System.out.println("Expiration Time = " + expirationTime);
         System.out.println("-------------------------------------------");
         System.out.println();
-        System.out.println("Expired? " + (new Date().after(expirationTime)? "Yes" : "No"));
+        System.out.println("Expired (Expect No)? " + (new Date().after(expirationTime)? "Yes" : "No"));
         System.out.println();
         System.out.println("-------------------------------------------");
         System.out.print("Waiting for " + (2 * expirySeconds) + " seconds before checking expiry...");
@@ -67,7 +69,7 @@ public abstract class JwtAbstract implements CommandLineRunner {
         System.out.println("Done.");
         System.out.println("-------------------------------------------");
         System.out.println();
-        System.out.println("Expired? " + (new Date().after(expirationTime) ? "Yes" : "No"));
+        System.out.println("Expired (Expect Yes)? " + (new Date().after(expirationTime) ? "Yes" : "No"));
     }
 
     @Override

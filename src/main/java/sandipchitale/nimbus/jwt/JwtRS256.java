@@ -43,7 +43,6 @@ public class JwtRS256 extends JwtAbstract implements CommandLineRunner {
         out.println(SEPARATOR);
         PemObject pemObject;
         pemObject = new PemObject("RSA PUBLIC KEY", publicKey.getEncoded());
-        pemWriter = new PemWriter(new OutputStreamWriter(out));
         pemWriter.writeObject(pemObject);
         pemWriter.flush();
         pemObject = new PemObject("RSA PRIVATE KEY", privateKey.getEncoded());

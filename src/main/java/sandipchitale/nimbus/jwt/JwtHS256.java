@@ -16,7 +16,7 @@ import static java.lang.System.out;
 
 @Profile("HS256")
 @Component
-public class JwtHS256 extends JwtAbstract implements CommandLineRunner {
+public class JwtHS256 extends JwtAbstract {
     private byte[] sharedSecret;
 
     protected void printHeader() {
